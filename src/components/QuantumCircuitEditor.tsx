@@ -9,6 +9,12 @@
 import React, { useState, useEffect } from "react";
 import { QuantumCircuit } from "../classes/QuantumCircuit";
 import "../styles/QuantumCircuitEditor.css"; // Will create this file
+import GatePalette from "./GatePalette"
+import CircuitCanvas from "./CircuitCanvas";
+
+import { DragGateItem, DropPosition } from "../types/dragdrop.types";
+import "../styles/QuantumCircuitEditor.css";
+
 
 interface CircuitStats {
   numQubits: number;
@@ -45,314 +51,372 @@ const QuantumCircuitEditor: React.FC = () => {
   // GATE ACTIONS
   // ─────────────────────────────────────────────────────────────
 
-  /**
-   * Add gate to circuit
-   */
-  const handleAddGate = (): void => {
-    try {
-      setErrorMessage(""); // Clear previous errors
-
-      const newCircuit = circuit.clone();
-      const angle =
-        selectedGateType.startsWith("R") && gateAngle !== null ? gateAngle : null;
-
-      newCircuit.addGate(selectedGateType, [selectedQubit], [], angle);
-      setCircuit(newCircuit);
-    } catch (error) {
-      setErrorMessage(
-        `Error: ${error instanceof Error ? error.message : String(error)}`
-      );
-    }
-  };
-
-  /**
-   * Add CNOT gate (needs special handling)
-   */
-  const handleAddCNOT = (): void => {
-    try {
-      setErrorMessage("");
-
-      if (selectedQubit < circuit.numQubits - 1) {
-        const newCircuit = circuit.clone();
-        newCircuit.addGate("CNOT", [selectedQubit + 1], [selectedQubit], null);
-        setCircuit(newCircuit);
-      } else {
-        setErrorMessage("Cannot add CNOT on last qubit (no target available)");
-      }
-    } catch (error) {
-      setErrorMessage(
-        `Error: ${error instanceof Error ? error.message : String(error)}`
-      );
-    }
-  };
-
-  /**
-   * Remove gate by ID
-   */
-  const handleRemoveGate = (gateId: string): void => {
-    try {
-      setErrorMessage("");
-
-      const newCircuit = circuit.clone();
-      newCircuit.removeGate(gateId);
-      setCircuit(newCircuit);
-    } catch (error) {
-      setErrorMessage(
-        `Error: ${error instanceof Error ? error.message : String(error)}`
-      );
-    }
-  };
-
-  /**
-   * Clear all gates
-   */
-  const handleClearCircuit = (): void => {
-    const newCircuit = new QuantumCircuit(
-      circuit.numQubits,
-      circuit.name
+  const QuantumCircuitEditor: React.FC = () => {
+    const [circuit, setCircuit] = useState<QuantumCircuit>(
+      new QuantumCircuit(3, "My Quantum Circuit")
     );
-    setCircuit(newCircuit);
-    setErrorMessage("");
-  };
+    const [errorMessage, setErrorMessage] = useState<string>("");
+    const [successMessage, setSuccessMessage] = useState<string>("");
 
-  /**
-   * Undo
-   */
-  const handleUndo = (): void => {
-    if (circuit.canUndo()) {
-      const newCircuit = circuit.clone();
-      newCircuit.undo();
-      setCircuit(newCircuit);
-    }
-  };
+    // ─────────────────────────────────────────────────────────────
+    // DRAG-DROP HANDLERS
+    // ─────────────────────────────────────────────────────────────
 
-  /**
-   * Redo
-   */
-  const handleRedo = (): void => {
-    if (circuit.canRedo()) {
-      const newCircuit = circuit.clone();
-      newCircuit.redo();
-      setCircuit(newCircuit);
-    }
-  };
+    /**
+     * Handle gate dropped on canvas
+     * 
+     * Called when user drops gate from palette onto circuit cell
+     * 
+     * WORKFLOW:
+     * 1. Extract gate type and angle from dropped item
+     * 2. Extract target position (qubit, column)
+     * 3. Validate: is this a valid drop?
+     * 4. If valid: add gate to circuit
+     * 5. If invalid: show error message
+     * 6. Update UI
+     */
+    const handleGateDropped = (item: DragGateItem, position: DropPosition) => {
+      try {
+        setErrorMessage("");
+        setSuccessMessage("");
 
-  /**
-   * Export to Qiskit code
-   */
-  const handleExportQiskit = (): void => {
-    const code = circuit.exportToQiskit();
-    setQiskitCode(code);
-    setShowQiskitCode(true);
-  };
+        const { gateType, angle } = item;
+        const { qubit, column } = position;
 
-  /**
-   * Export to JSON and download
-   */
-  const handleExportJSON = (): void => {
-    const jsonData = circuit.exportToJSON();
-    const jsonString = JSON.stringify(jsonData, null, 2);
-    const blob = new Blob([jsonString], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${circuit.name}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
+        // Clone circuit (immutability for React state)
+        const newCircuit = circuit.clone();
 
-  // ─────────────────────────────────────────────────────────────
-  // RENDER
-  // ─────────────────────────────────────────────────────────────
+        // Add gate to circuit
+        // This will validate automatically
+        const gateId = newCircuit.addGate(
+          gateType,
+          [qubit],
+          [],
+          angle || null,
+          { row: qubit, column: column }
+        );
 
-  return (
-    <div className="quantum-circuit-editor">
-      <h1>🎯 Quantum Circuit Editor</h1>
+        // Update state (triggers re-render)
+        setCircuit(newCircuit);
+        setSuccessMessage(`✓ Added ${gateType} gate to q[${qubit}]`);
 
-      {/* ERROR MESSAGE */}
-      {errorMessage && (
-        <div className="error-box">
-          <strong>Error:</strong> {errorMessage}
-        </div>
-      )}
+        // Clear message after 2 seconds
+        setTimeout(() => setSuccessMessage(""), 2000);
+      } catch (error) {
+        setErrorMessage(
+          error instanceof Error ? error.message : String(error)
+        );
+      }
+    };
+    
+  *
+      Add gate to circuit
+   
+  nst handleAddGate = (): void => {
+    y {
+        tErrorMessage(""); // Clear previous errors
 
-      {/* CONTROLS */}
-      <div className="controls-section">
-        <h2>Add Gates</h2>
+      nst newCircuit = circuit.clone();
+      nst angle =
+          lectedGateType.startsWith("R") && gateAngle !== null ? gateAngle : null;
 
-        <div className="gate-selector">
-          <label>
-            Gate Type:
-            <select
-              value={selectedGateType}
-              onChange={(e) => setSelectedGateType(e.target.value)}
-            >
-              <option value="H">Hadamard (H)</option>
-              <option value="X">Pauli-X (X)</option>
-              <option value="Y">Pauli-Y (Y)</option>
-              <option value="Z">Pauli-Z (Z)</option>
-              <option value="RX">Rotation-X (RX)</option>
-              <option value="RY">Rotation-Y (RY)</option>
-              <option value="RZ">Rotation-Z (RZ)</option>
-              <option value="S">Phase (S)</option>
-              <option value="T">T-gate (T)</option>
-              <option value="MEASURE">Measurement</option>
-            </select>
-          </label>
+        wCircuit.addGate(selectedGateType, [selectedQubit], [], angle);
+        tCircuit(newCircuit);
+    catch (error) {
+          tErrorMessage(
+            rror: ${ error instanceof Error ? error.message : String(error) }`
+      
+    
+  
 
-          <label>
-            Qubit:
-            <select
-              value={selectedQubit}
-              onChange={(e) => setSelectedQubit(parseInt(e.target.value))}
-            >
-              {Array.from({ length: circuit.numQubits }, (_, i) => (
-                <option key={i} value={i}>
-                  q[{i}]
-                </option>
-              ))}
-            </select>
-          </label>
+  *
+   Add CNOT gate (needs special handling)
+   
+  nst handleAddCNOT = (): void => {
+    y {
+      tErrorMessage("");
 
-          {selectedGateType.startsWith("R") && (
-            <label>
-              Angle (radians):
-              <input
-                type="number"
-                value={gateAngle}
-                onChange={(e) => setGateAngle(parseFloat(e.target.value))}
-                step="0.1"
-              />
-            </label>
-          )}
+       (selectedQubit < circuit.numQubits - 1) {
+        nst newCircuit = circuit.clone();
+        wCircuit.addGate("CNOT", [selectedQubit + 1], [selectedQubit], null);
+        tCircuit(newCircuit);
+      else {
+        tErrorMessage("Cannot add CNOT on last qubit (no target available)");
+      
+    catch (error) {
+      tErrorMessage(
+        rror: ${error instanceof Error ? error.message : String(error)}`
 
-          <button onClick={handleAddGate} className="btn btn-primary">
-            Add {selectedGateType} Gate
-          </button>
 
-          <button onClick={handleAddCNOT} className="btn btn-primary">
-            Add CNOT
-          </button>
-        </div>
 
-        <div className="action-buttons">
-          <button
-            onClick={handleUndo}
-            disabled={!circuit.canUndo()}
-            className="btn btn-secondary"
-          >
-            ↶ Undo
-          </button>
-          <button
-            onClick={handleRedo}
-            disabled={!circuit.canRedo()}
-            className="btn btn-secondary"
-          >
-            ↷ Redo
-          </button>
-          <button onClick={handleClearCircuit} className="btn btn-danger">
-            Clear Circuit
-          </button>
-        </div>
-      </div>
 
-      {/* CIRCUIT VISUALIZATION */}
-      <div className="circuit-section">
-        <h2>Circuit Diagram</h2>
-        <div className="circuit-container">
-          {Array.from({ length: circuit.numQubits }, (_, qubitIndex) => (
-            <div key={qubitIndex} className="qubit-row">
-              <div className="qubit-label">q[{qubitIndex}]</div>
-              <div className="qubit-line">
-                {circuit.getGatesOnQubit(qubitIndex).map((gate) => (
-                  <div
-                    key={gate.id}
-                    className="gate-box"
-                    title={`${gate.type}${gate.angle ? ` (${gate.angle})` : ""}`}
-                    onClick={() => handleRemoveGate(gate.id)}
-                  >
-                    <span className="gate-type">{gate.type}</span>
-                    <button
-                      className="remove-btn"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleRemoveGate(gate.id);
-                      }}
-                    >
-                      ✕
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+          *
+          Remove gate by ID
+   
+  nst handleRemoveGate = (gateId: string): void => {
+    y {
+              tErrorMessage("");
 
-      {/* STATISTICS */}
-      <div className="stats-section">
-        <h2>Circuit Statistics</h2>
-        <div className="stats-grid">
-          <div className="stat-item">
-            <strong>Total Gates:</strong> {stats.totalGates}
-          </div>
-          <div className="stat-item">
-            <strong>Circuit Depth:</strong> {stats.depth}
-          </div>
-          <div className="stat-item">
-            <strong>Qubits:</strong> {stats.numQubits}
-          </div>
-          <div className="stat-item">
-            <strong>Classical Bits:</strong> {stats.numClassicalBits}
-          </div>
-        </div>
+      nst newCircuit = circuit.clone();
+              wCircuit.removeGate(gateId);
+              tCircuit(newCircuit);
+    catch (error) {
+                tErrorMessage(
+                  rror: ${ error instanceof Error ? error.message : String(error) }`
+      
+    
+  
 
-        <div className="gate-types">
-          <h3>Gate Types:</h3>
-          <ul>
-            {Object.entries(stats.gateTypes).map(([type, count]) => (
-              <li key={type}>
-                {type}: {count}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
+  *
+   Clear all gates
+   
+  nst handleClearCircuit = (): void => {
+    nst newCircuit = new QuantumCircuit(
+      rcuit.numQubits,
+      rcuit.name
+    
+    tCircuit(newCircuit);
+    tErrorMessage("");
+  
 
-      {/* EXPORT SECTION */}
-      <div className="export-section">
-        <h2>Export & Code</h2>
+  *
+   Undo
+   
+  nst handleUndo = (): void => {
+     (circuit.canUndo()) {
+      nst newCircuit = circuit.clone();
+      wCircuit.undo();
+      tCircuit(newCircuit);
+    
+  
 
-        <button onClick={handleExportQiskit} className="btn btn-info">
-          View Qiskit Code
-        </button>
+  *
+   Redo
+   
+  nst handleRedo = (): void => {
+     (circuit.canRedo()) {
+      nst newCircuit = circuit.clone();
+      wCircuit.redo();
+      tCircuit(newCircuit);
+    
+  
 
-        <button onClick={handleExportJSON} className="btn btn-info">
-          Download JSON
-        </button>
+  *
+   Export to Qiskit code
+   
+  nst handleExportQiskit = (): void => {
+    nst code = circuit.exportToQiskit();
+    tQiskitCode(code);
+    tShowQiskitCode(true);
+  
 
-        {showQiskitCode && (
-          <div className="code-display">
-            <h3>Qiskit Python Code:</h3>
-            <pre>{qiskitCode}</pre>
-            <button
-              onClick={() => setShowQiskitCode(false)}
-              className="btn btn-secondary"
-            >
-              Close
-            </button>
-          </div>
-        )}
-      </div>
+  *
+   Export to JSON and download
+   
+  nst handleExportJSON = (): void => {
+    nst jsonData = circuit.exportToJSON();
+    nst jsonString = JSON.stringify(jsonData, null, 2);
+    nst blob = new Blob([jsonString], { type: "application/json" });
+    nst url = URL.createObjectURL(blob);
+    nst a = document.createElement("a");
+    href = url;
+    download = `${ circuit.name }.json`;
+    click();
+    L.revokeObjectURL(url);
+  
 
-      {/* CIRCUIT INFO */}
-      <div className="info-section">
-        <h3>Circuit Name: {circuit.name}</h3>
-        <p>Created: {new Date(stats.createdAt).toLocaleString()}</p>
-        <p>Last Modified: {new Date(stats.lastModified).toLocaleString()}</p>
-      </div>
-    </div>
-  );
-};
+   ─────────────────────────────────────────────────────────────
+   RENDER
+   ─────────────────────────────────────────────────────────────
 
-export default QuantumCircuitEditor;
+  turn (
+    iv className="quantum-circuit-editor">
+      1>🎯 Quantum Circuit Editor</h1>
+
+      * ERROR MESSAGE */}
+      rrorMessage && (
+        iv className="error-box">
+          trong>Error:</strong> {errorMessage}
+        div>
+      
+
+      * CONTROLS */}
+      iv className="controls-section">
+        2>Add Gates</h2>
+
+        iv className="gate-selector">
+          abel>
+            te Type:
+            elect
+              lue={selectedGateType}
+              Change={(e) => setSelectedGateType(e.target.value)}
+            
+              ption value="H">Hadamard (H)</option>
+              ption value="X">Pauli-X (X)</option>
+              ption value="Y">Pauli-Y (Y)</option>
+              ption value="Z">Pauli-Z (Z)</option>
+              ption value="RX">Rotation-X (RX)</option>
+              ption value="RY">Rotation-Y (RY)</option>
+              ption value="RZ">Rotation-Z (RZ)</option>
+              ption value="S">Phase (S)</option>
+              ption value="T">T-gate (T)</option>
+              ption value="MEASURE">Measurement</option>
+            select>
+          label>
+
+          abel>
+            bit:
+            elect
+              lue={selectedQubit}
+              Change={(e) => setSelectedQubit(parseInt(e.target.value))}
+            
+              rray.from({ length: circuit.numQubits }, (_, i) => (
+                ption key={i} value={i}>
+                  {i}]
+                option>
+              }
+            select>
+          label>
+
+          electedGateType.startsWith("R") && (
+            abel>
+              gle (radians):
+              nput
+                pe="number"
+                lue={gateAngle}
+                Change={(e) => setGateAngle(parseFloat(e.target.value))}
+                ep="0.1"
+              
+            label>
+          
+
+          utton onClick={handleAddGate} className="btn btn-primary">
+            d {selectedGateType} Gate
+          button>
+
+          utton onClick={handleAddCNOT} className="btn btn-primary">
+            d CNOT
+          button>
+        div>
+
+        iv className="action-buttons">
+          utton
+            Click={handleUndo}
+            sabled={!circuit.canUndo()}
+            assName="btn btn-secondary"
+          
+            Undo
+          button>
+          utton
+            Click={handleRedo}
+            sabled={!circuit.canRedo()}
+            assName="btn btn-secondary"
+          
+            Redo
+          button>
+          utton onClick={handleClearCircuit} className="btn btn-danger">
+            ear Circuit
+          button>
+        div>
+      div>
+
+      * CIRCUIT VISUALIZATION */}
+      iv className="circuit-section">
+        2>Circuit Diagram</h2>
+        iv className="circuit-container">
+          rray.from({ length: circuit.numQubits }, (_, qubitIndex) => (
+            iv key={qubitIndex} className="qubit-row">
+              iv className="qubit-label">q[{qubitIndex}]</div>
+              iv className="qubit-line">
+                ircuit.getGatesOnQubit(qubitIndex).map((gate) => (
+                  iv
+                    y={gate.id}
+                    assName="gate-box"
+                    tle={`${ gate.type }${ gate.angle ? ` (${gate.angle})` : "" }`}
+                    Click={() => handleRemoveGate(gate.id)}
+                  
+                    pan className="gate-type">{gate.type}</span>
+                    utton
+                      assName="remove-btn"
+                      Click={(e) => {
+                        stopPropagation();
+                        ndleRemoveGate(gate.id);
+                      
+                    
+                      
+                    button>
+                  div>
+                }
+              div>
+            div>
+          }
+        div>
+      div>
+
+      * STATISTICS */}
+      iv className="stats-section">
+        2>Circuit Statistics</h2>
+        iv className="stats-grid">
+          iv className="stat-item">
+            trong>Total Gates:</strong> {stats.totalGates}
+          div>
+          iv className="stat-item">
+            trong>Circuit Depth:</strong> {stats.depth}
+          div>
+          iv className="stat-item">
+            trong>Qubits:</strong> {stats.numQubits}
+          div>
+          iv className="stat-item">
+            trong>Classical Bits:</strong> {stats.numClassicalBits}
+          div>
+        div>
+
+        iv className="gate-types">
+          3>Gate Types:</h3>
+          l>
+            bject.entries(stats.gateTypes).map(([type, count]) => (
+              i key={type}>
+                ype}: {count}
+              li>
+            }
+          ul>
+        div>
+      div>
+
+      * EXPORT SECTION */}
+      iv className="export-section">
+        2>Export & Code</h2>
+
+        utton onClick={handleExportQiskit} className="btn btn-info">
+          ew Qiskit Code
+        button>
+
+        utton onClick={handleExportJSON} className="btn btn-info">
+          wnload JSON
+        button>
+
+        howQiskitCode && (
+          iv className="code-display">
+            3>Qiskit Python Code:</h3>
+            re>{qiskitCode}</pre>
+            utton
+              Click={() => setShowQiskitCode(false)}
+              assName="btn btn-secondary"
+            
+              ose
+            button>
+          div>
+        
+      div>
+
+      * CIRCUIT INFO */}
+      iv className="info-section">
+        3>Circuit Name: {circuit.name}</h3>
+        >Created: {new Date(stats.createdAt).toLocaleString()}</p>
+        >Last Modified: {new Date(stats.lastModified).toLocaleString()}</p>
+      div>
+    div>
+  
+
+
+port default QuantumCircuitEditor;

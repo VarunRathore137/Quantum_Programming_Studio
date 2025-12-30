@@ -4,20 +4,16 @@
  * Represents a single quantum gate
  * ATOMIC UNIT of the circuit
  * 
- * WHY TYPESCRIPT:
- * - Type checking prevents bugs
- * - intellisense tells us what parameters to pass
- * - interfaces ensure structure is followed
  */
 
 // Define what a gate position looks like
-interface GatePosition {
+export interface GatePosition {
    row: number;    // Which qubit line
    column: number; // Which step in circuit
  }
  
  // Define gate parameters
- interface GateParams {
+ export interface GateParams {
    angle?: number;     // For parametric gates (RX, RY, RZ)
    [key: string]: any; // Allow other parameters
  }
