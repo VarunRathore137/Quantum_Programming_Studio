@@ -5,14 +5,14 @@
 See: `.planning/PROJECT.md` (updated 2026-03-01)
 
 **Core value:** Instant visual-to-simulation feedback loop for solo quantum researchers and students
-**Current focus:** Not started — ready to begin Phase 1
+**Current focus:** Phase 1 — Foundation & Circuit Core (plans created, ready to execute)
 
 ---
 
 ## Current Phase
 
-**Phase:** Not started
-**Status:** Project initialized, ready to begin Phase 1
+**Phase:** 1 — Foundation & Circuit Core
+**Status:** 🟡 Plans created — ready to execute
 
 ---
 
@@ -20,13 +20,27 @@ See: `.planning/PROJECT.md` (updated 2026-03-01)
 
 | # | Phase | Status |
 |---|-------|--------|
-| 1 | Foundation & Circuit Core | ⬜ Not started |
+| 1 | Foundation & Circuit Core | 🟡 Planned |
 | 2 | Visual Circuit Editor | ⬜ Not started |
 | 3 | Simulation & Visualization | ⬜ Not started |
 | 4 | Code Editor & Bi-Directional Sync | ⬜ Not started |
 | 5 | Templates & AI Copilot | ⬜ Not started |
 | 6 | Noise Models & Cloud Backend | ⬜ Not started |
 | 7 | Hardware Submission | ⬜ Not started |
+
+---
+
+## Phase 1 Plans
+
+| Plan | Name | Wave | Status |
+|------|------|------|--------|
+| 1.1 | Project Re-Scaffold (Vite + React 19 + Tailwind v4) | 1 | ⬜ Not started |
+| 1.2 | Circuit Types + QASM Export (TDD) | 1 | ⬜ Not started |
+| 1.3 | QASM Import + Persistence (fromQASM + Dexie.js) | 2 | ⬜ Not started |
+| 1.4 | FastAPI Backend Skeleton | 2 | ⬜ Not started |
+| 1.5 | Project Sidebar + App Shell UI | 3 | ⬜ Not started |
+
+Plan files: `.planning/phases/1/01-PLAN.md` through `05-PLAN.md`
 
 ---
 
@@ -43,9 +57,12 @@ See: `.planning/PROJECT.md` (updated 2026-03-01)
 | Research summary | `.planning/research/SUMMARY.md` | ✓ Complete |
 | Requirements | `.planning/REQUIREMENTS.md` | ✓ Complete |
 | Roadmap | `.planning/ROADMAP.md` | ✓ Complete |
+| Phase 1 decisions | `.planning/DECISIONS.md` | ✓ Complete |
+| Phase 1 plans | `.planning/phases/1/*.md` | ✓ Complete (5 plans) |
 
 ---
 
 ## Next Step
 
-Run `/gsd:discuss-phase 1` to plan Phase 1: Foundation & Circuit Core
+Run `/execute 1` starting with Plan 1.1 (Wave 1). Plans 1.1 and 1.2 can execute in parallel (Wave 1).
+After Wave 1, run Plans 1.3 and 1.4 in parallel (Wave 2). After Wave 2, run Plan 1.5 (Wave 3).
