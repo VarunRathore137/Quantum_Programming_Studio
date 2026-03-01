@@ -12,7 +12,7 @@ See: `.planning/PROJECT.md` (updated 2026-03-01)
 ## Current Phase
 
 **Phase:** 1 — Foundation & Circuit Core
-**Status:** 🟡 Plans created — ready to execute
+**Status:** 🟡 In progress — Plans 1.2 and 1.3 complete
 
 ---
 
@@ -36,7 +36,7 @@ See: `.planning/PROJECT.md` (updated 2026-03-01)
 |------|------|------|--------|
 | 1.1 | Project Re-Scaffold (Vite + React 19 + Tailwind v4) | 1 | ⬜ Not started |
 | 1.2 | Circuit Types + QASM Export (TDD) | 1 | ✅ Complete |
-| 1.3 | QASM Import + Persistence (fromQASM + Dexie.js) | 2 | ⬜ Not started |
+| 1.3 | QASM Import + Persistence (fromQASM + Dexie.js) | 2 | ✅ Complete |
 | 1.4 | FastAPI Backend Skeleton | 2 | ⬜ Not started |
 | 1.5 | Project Sidebar + App Shell UI | 3 | ⬜ Not started |
 
