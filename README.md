@@ -8,7 +8,7 @@
 *   **Gate Palette**: A collection of standard quantum gates (Hadamard, Pauli-X, CNOT, etc.).
 *   **Visual Feedback**: Real-time representation of the quantum circuit.
 *   **TypeScript Support**: Fully typed codebase for reliability and maintainability.
-*   **Modern UI**: Clean and intuitive interface for quantum algorithm design.
+*   **Modern UI**: Clean and intuitive interface for quantum algorithm design
 
 ## 🛠️ Tech Stack
 
