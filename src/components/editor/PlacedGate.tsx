@@ -16,12 +16,16 @@ export function PlacedGate({ gate, onDelete }: PlacedGateProps) {
    const isParametric = def?.category === 'parametric'
 
    return (
-      <div className="relative group w-14 h-14 flex flex-col items-center justify-center rounded-lg bg-violet-600 border border-violet-400 text-white select-none">
+      <div className={`
+      relative group flex flex-col items-center justify-center rounded-lg
+      bg-violet-600 border border-violet-400 text-white select-none
+      w-14 ${isParametric ? 'min-h-[56px] py-1' : 'h-14'}
+    `}>
          <span className="text-sm font-mono font-bold leading-none">{label}</span>
          {isParametric && (
             <AngleEditor
                value={gate.params?.theta ?? 0}
-               onChange={rad => updateGateParams(gate.id, { theta: rad })}
+               onChange={(rad: number) => updateGateParams(gate.id, { theta: rad })}
             />
          )}
          {/* Delete button — shown on hover */}
