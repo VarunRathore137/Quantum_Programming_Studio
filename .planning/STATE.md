@@ -5,7 +5,7 @@
 See: `.planning/PROJECT.md` (updated 2026-03-01)
 
 **Core value:** Instant visual-to-simulation feedback loop for solo quantum researchers and students
-**Current focus:** Phase 2 — Visual Circuit Editor (plans created, ready to execute)
+**Current focus:** Phase 2 — Visual Circuit Editor (all 5 plans executed, pending human verification)
 
 ---
 
@@ -49,11 +49,11 @@ Summaries: `.planning/phases/1/01-SUMMARY.md` through `05-SUMMARY.md`
 
 | Plan | Name | Wave | Status |
 |------|------|------|--------|
-| 2.1 | dnd-kit install + Undo/Redo + CircuitControls | 1 | ⬜ Pending |
-| 2.2 | Gate Palette — Beginner/Advanced Toggle | 1 | ⬜ Pending |
-| 2.3 | Circuit Grid + Drop Zones + PlacedGate | 2 | ⬜ Pending |
-| 2.4 | Multi-Qubit Gates — CNOT Visual Connector | 3 | ⬜ Pending |
-| 2.5 | Parametric Gate Angle Editor | 3 | ⬜ Pending |
+| 2.1 | dnd-kit install + Undo/Redo + CircuitControls | 1 | ✅ Complete |
+| 2.2 | Gate Palette — Beginner/Advanced Toggle | 1 | ✅ Complete |
+| 2.3 | Circuit Grid + Drop Zones + PlacedGate | 2 | ✅ Complete |
+| 2.4 | Multi-Qubit Gates — CNOT Visual Connector | 3 | ✅ Complete |
+| 2.5 | Parametric Gate Angle Editor | 3 | ✅ Complete |
 
 Plan files: `.planning/phases/2/01-PLAN.md` through `05-PLAN.md`
 
