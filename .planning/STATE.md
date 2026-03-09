@@ -5,14 +5,14 @@
 See: `.planning/PROJECT.md` (updated 2026-03-01)
 
 **Core value:** Instant visual-to-simulation feedback loop for solo quantum researchers and students
-**Current focus:** Phase 1 — Foundation & Circuit Core (plans created, ready to execute)
+**Current focus:** Phase 2 — Visual Circuit Editor (plans created, ready to execute)
 
 ---
 
 ## Current Phase
 
-**Phase:** 1 — Foundation & Circuit Core
-**Status:** ✅ Complete — All 5 plans executed and verified
+**Phase:** 2 — Visual Circuit Editor
+**Status:** 🟡 Planned — 5 plans created, ready to execute
 
 ---
 
@@ -21,7 +21,7 @@ See: `.planning/PROJECT.md` (updated 2026-03-01)
 | # | Phase | Status |
 |---|-------|--------|
 | 1 | Foundation & Circuit Core | ✅ Complete |
-| 2 | Visual Circuit Editor | ⬜ Not started |
+| 2 | Visual Circuit Editor | 🟡 Planned |
 | 3 | Simulation & Visualization | ⬜ Not started |
 | 4 | Code Editor & Bi-Directional Sync | ⬜ Not started |
 | 5 | Templates & AI Copilot | ⬜ Not started |
@@ -45,6 +45,41 @@ Summaries: `.planning/phases/1/01-SUMMARY.md` through `05-SUMMARY.md`
 
 ---
 
+## Phase 2 Plans
+
+| Plan | Name | Wave | Status |
+|------|------|------|--------|
+| 2.1 | dnd-kit install + Undo/Redo + CircuitControls | 1 | ⬜ Pending |
+| 2.2 | Gate Palette — Beginner/Advanced Toggle | 1 | ⬜ Pending |
+| 2.3 | Circuit Grid + Drop Zones + PlacedGate | 2 | ⬜ Pending |
+| 2.4 | Multi-Qubit Gates — CNOT Visual Connector | 3 | ⬜ Pending |
+| 2.5 | Parametric Gate Angle Editor | 3 | ⬜ Pending |
+
+Plan files: `.planning/phases/2/01-PLAN.md` through `05-PLAN.md`
+
+Wave structure:
+- **Wave 1** (parallel): Plans 2.1, 2.2 — Foundation (deps, undo/redo, palette data)
+- **Wave 2** (depends on Wave 1): Plan 2.3 — Circuit grid + drop zones
+- **Wave 3** (depends on Wave 2, parallel): Plans 2.4, 2.5 — Multi-qubit + angle editor
+- **Wave 4** (after Wave 3, parallel): GAP-01, GAP-02 — Performance + linting
+
+---
+
+## Phase 2 Gap Closure Plans
+
+| Plan | Name | Priority | Wave | Status |
+|------|------|----------|------|--------|
+| GAP-01 | Performance — React.memo + Selective Subscriptions | 🟡 Medium | 4 | ⬜ Pending |
+| GAP-02 | Circuit Linting — Highlight Invalid Gates | 🟡 Medium | 4 | ⬜ Pending |
+| GAP-03 | Record Phase 2 Architecture Decisions | 🟢 Low | 0 (pre-exec) | ⬜ Pending |
+
+Gap sources:
+- GAP-01: PITFALLS.md — "React Re-Render Explosion on Large Circuits"
+- GAP-02: PITFALLS.md — "Opaque Simulator Error Messages (Phase 2 linting aspect)"
+- GAP-03: DECISIONS.md — Phase 2 open questions never formally resolved
+
+---
+
 ## Planning Artifacts
 
 | Artifact | Location | Status |
@@ -60,10 +95,10 @@ Summaries: `.planning/phases/1/01-SUMMARY.md` through `05-SUMMARY.md`
 | Roadmap | `.planning/ROADMAP.md` | ✓ Complete |
 | Phase 1 decisions | `.planning/DECISIONS.md` | ✓ Complete |
 | Phase 1 plans | `.planning/phases/1/*.md` | ✓ Complete (5 plans) |
+| Phase 2 plans | `.planning/phases/2/*.md` | ✓ Complete (5 plans) |
 
 ---
 
 ## Next Step
 
-Phase 1 is complete. Proceed to Phase 2 — Visual Circuit Editor.
-Run `/plan 2` to create Phase 2 execution plans.
+Run `/execute 2` to execute Phase 2 plans.

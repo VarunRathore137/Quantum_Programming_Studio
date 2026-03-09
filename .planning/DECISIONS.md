@@ -84,3 +84,19 @@ interface StorageAdapter {
 - **Backend (Railway):** "Deploy on Push" — Railway auto-deploys from the connected GitHub repo on every push to `main`.
 - **Frontend (Vercel):** GitHub repo linked to Vercel project — auto-deploys on push to `main`.
 - **Reason:** Keeps Phase 1 focused on scaffolding the core architecture, not DevOps overhead. Custom CI/CD pipeline deferred to a later phase if needed.
+
+---
+
+## Phase 2 Decisions
+
+**Date:** 2026-03-09 (in discussion — to be finalized)
+
+### Open Questions
+
+1. **Drag-and-drop library** — Use `@dnd-kit/core` vs raw HTML5 Drag API vs React-DnD?
+2. **Multi-qubit gate UX** — Click-to-place (click control, then click target) vs drag-with-range-indicator?
+3. **Canvas rendering** — Pure CSS grid vs SVG overlay vs HTML5 Canvas for gate rendering and connection lines?
+4. **Undo/redo scope** — Apply to individual gate placements (granular) or to "commit" actions (batched)?
+5. **Gate palette organization** — Separate panel vs floating toolbar? Draggable palette?
+
+### Decisions TBD after discussion
