@@ -12,7 +12,7 @@ See: `.planning/PROJECT.md` (updated 2026-03-01)
 ## Current Phase
 
 **Phase:** 1 — Foundation & Circuit Core
-**Status:** 🟡 In progress — Plans 1.2 and 1.3 complete
+**Status:** 🟡 In progress — Plans 1.2, 1.3, and 1.4 complete
 
 ---
 
@@ -37,7 +37,7 @@ See: `.planning/PROJECT.md` (updated 2026-03-01)
 | 1.1 | Project Re-Scaffold (Vite + React 19 + Tailwind v4) | 1 | ⬜ Not started |
 | 1.2 | Circuit Types + QASM Export (TDD) | 1 | ✅ Complete |
 | 1.3 | QASM Import + Persistence (fromQASM + Dexie.js) | 2 | ✅ Complete |
-| 1.4 | FastAPI Backend Skeleton | 2 | 🟡 At checkpoint — Railway deploy (Task 3, human-action) |
+| 1.4 | FastAPI Backend Skeleton | 2 | ✅ Complete |
 | 1.5 | Project Sidebar + App Shell UI | 3 | ⬜ Not started |
 
 Plan files: `.planning/phases/1/01-PLAN.md` through `05-PLAN.md`
@@ -64,5 +64,5 @@ Plan files: `.planning/phases/1/01-PLAN.md` through `05-PLAN.md`
 
 ## Next Step
 
-Run `/execute 1` starting with Plan 1.1 (Wave 1). Plans 1.1 and 1.2 can execute in parallel (Wave 1).
-After Wave 1, run Plans 1.3 and 1.4 in parallel (Wave 2). After Wave 2, run Plan 1.5 (Wave 3).
+Execute Plan 1.5 (Wave 3) — Project Sidebar + App Shell UI.
+Run `/execute 1.5` to proceed.
