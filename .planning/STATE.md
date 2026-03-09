@@ -12,7 +12,7 @@ See: `.planning/PROJECT.md` (updated 2026-03-01)
 ## Current Phase
 
 **Phase:** 1 — Foundation & Circuit Core
-**Status:** 🟡 In progress — Plans 1.2, 1.3, and 1.4 complete
+**Status:** ✅ Complete — All 5 plans executed and verified
 
 ---
 
@@ -20,7 +20,7 @@ See: `.planning/PROJECT.md` (updated 2026-03-01)
 
 | # | Phase | Status |
 |---|-------|--------|
-| 1 | Foundation & Circuit Core | 🟡 Planned |
+| 1 | Foundation & Circuit Core | ✅ Complete |
 | 2 | Visual Circuit Editor | ⬜ Not started |
 | 3 | Simulation & Visualization | ⬜ Not started |
 | 4 | Code Editor & Bi-Directional Sync | ⬜ Not started |
@@ -34,13 +34,14 @@ See: `.planning/PROJECT.md` (updated 2026-03-01)
 
 | Plan | Name | Wave | Status |
 |------|------|------|--------|
-| 1.1 | Project Re-Scaffold (Vite + React 19 + Tailwind v4) | 1 | ⬜ Not started |
+| 1.1 | Project Re-Scaffold (Vite + React 19 + Tailwind v4) | 1 | ✅ Complete |
 | 1.2 | Circuit Types + QASM Export (TDD) | 1 | ✅ Complete |
 | 1.3 | QASM Import + Persistence (fromQASM + Dexie.js) | 2 | ✅ Complete |
 | 1.4 | FastAPI Backend Skeleton | 2 | ✅ Complete |
-| 1.5 | Project Sidebar + App Shell UI | 3 | ⬜ Not started |
+| 1.5 | Project Sidebar + App Shell UI | 3 | ✅ Complete |
 
 Plan files: `.planning/phases/1/01-PLAN.md` through `05-PLAN.md`
+Summaries: `.planning/phases/1/01-SUMMARY.md` through `05-SUMMARY.md`
 
 ---
 
@@ -64,5 +65,5 @@ Plan files: `.planning/phases/1/01-PLAN.md` through `05-PLAN.md`
 
 ## Next Step
 
-Execute Plan 1.5 (Wave 3) — Project Sidebar + App Shell UI.
-Run `/execute 1.5` to proceed.
+Phase 1 is complete. Proceed to Phase 2 — Visual Circuit Editor.
+Run `/plan 2` to create Phase 2 execution plans.
