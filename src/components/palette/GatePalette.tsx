@@ -6,9 +6,9 @@ export function GatePalette() {
    const [advanced, setAdvanced] = useState(false)
 
    return (
-      <aside className="w-52 flex-shrink-0 border-r border-zinc-800 bg-zinc-950 flex flex-col overflow-y-auto">
+      <aside className="w-52 flex-shrink-0 border-r border-zinc-800/50 bg-zinc-950/40 backdrop-blur-xl flex flex-col overflow-y-auto z-10">
          {/* Header + toggle */}
-         <div className="flex items-center justify-between px-3 py-2 border-b border-zinc-800">
+         <div className="flex items-center justify-between px-3 py-2 border-b border-zinc-800/50">
             <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Gates</span>
             <button
                onClick={() => setAdvanced(v => !v)}

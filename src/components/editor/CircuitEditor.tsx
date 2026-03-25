@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { DndContext, DragOverlay, type DragEndEvent } from '@dnd-kit/core'
-import { GatePalette } from '@/components/palette/GatePalette'
+import { GatePalette } from '../palette/GatePalette'
 import { CircuitControls } from './CircuitControls'
 import { CircuitGrid } from './CircuitGrid'
+import { CodeEditorPane } from './CodeEditorPane'
+import { CopilotSidebar } from '../sidebar/CopilotSidebar'
 import { useCircuitStore } from '@/store/circuitStore'
 import { getGateDefinition } from '@/lib/gates/gateDefinitions'
 import type { DragGateItem } from '@/types/dragdrop.types'
@@ -64,11 +66,15 @@ export function CircuitEditor() {
             <CircuitControls />
             <div className="flex flex-1 overflow-hidden">
                <GatePalette />
-               <CircuitGrid
-                  pendingTwoQubit={pendingTwoQubit}
-                  setPendingTwoQubit={setPendingTwoQubit}
-                  occupied={occupied}
-               />
+               <div className="flex flex-col flex-1 overflow-hidden">
+                  <CircuitGrid
+                     pendingTwoQubit={pendingTwoQubit}
+                     setPendingTwoQubit={setPendingTwoQubit}
+                     occupied={occupied}
+                  />
+                  <CodeEditorPane />
+               </div>
+               <CopilotSidebar />
             </div>
          </div>
 

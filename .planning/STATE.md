@@ -5,14 +5,14 @@
 See: `.planning/PROJECT.md` (updated 2026-03-01)
 
 **Core value:** Instant visual-to-simulation feedback loop for solo quantum researchers and students
-**Current focus:** Phase 2 — Visual Circuit Editor (all 5 plans executed, pending human verification)
+**Current focus:** Phase 3 — Simulation & Visualization (6 plans created, ready to execute)
 
 ---
 
 ## Current Phase
 
-**Phase:** 2 — Visual Circuit Editor
-**Status:** 🟡 Planned — 5 plans created, ready to execute
+**Phase:** 3 — Simulation & Visualization
+**Status:** 🟡 Planned — 6 plans created, ready to execute
 
 ---
 
@@ -21,8 +21,8 @@ See: `.planning/PROJECT.md` (updated 2026-03-01)
 | # | Phase | Status |
 |---|-------|--------|
 | 1 | Foundation & Circuit Core | ✅ Complete |
-| 2 | Visual Circuit Editor | 🟡 Planned |
-| 3 | Simulation & Visualization | ⬜ Not started |
+| 2 | Visual Circuit Editor | ✅ Complete |
+| 3 | Simulation & Visualization | 🟡 Planned |
 | 4 | Code Editor & Bi-Directional Sync | ⬜ Not started |
 | 5 | Templates & AI Copilot | ⬜ Not started |
 | 6 | Noise Models & Cloud Backend | ⬜ Not started |
@@ -96,9 +96,29 @@ Gap sources:
 | Phase 1 decisions | `.planning/DECISIONS.md` | ✓ Complete |
 | Phase 1 plans | `.planning/phases/1/*.md` | ✓ Complete (5 plans) |
 | Phase 2 plans | `.planning/phases/2/*.md` | ✓ Complete (5 plans) |
+| Phase 3 plans | `.planning/phases/3/*.md` | ✓ Complete (6 plans) |
+
+---
+
+## Phase 3 Plans
+
+| Plan | Name | Wave | Status |
+|------|------|------|--------|
+| 3.1 | Pure-TS Statevector Engine (TDD) | 1 | ⬜ Pending |
+| 3.2 | Simulation Store + Auto-Sim Trigger | 2 | ⬜ Pending |
+| 3.3 | Probability Histogram + Statevector Display | 2 | ⬜ Pending |
+| 3.4 | Bloch Sphere Visualization | 3 | ⬜ Pending |
+| 3.5 | Status Bar + Circuit Metrics | 3 | ⬜ Pending |
+| 3.6 | React Performance + Circuit Linting (GAP-01+02) | 4 | ⬜ Pending |
+
+Wave structure:
+- **Wave 1** (independent): Plan 3.1 — Pure-TS engine (TDD)
+- **Wave 2** (depends on 3.1): Plans 3.2, 3.3 — Sim store + results visualization
+- **Wave 3** (depends on 3.2): Plans 3.4, 3.5 — Bloch sphere + status bar
+- **Wave 4** (depends on all): Plan 3.6 — Perf + linting
 
 ---
 
 ## Next Step
 
-Run `/execute 2` to execute Phase 2 plans.
+Run `/execute 3` to execute Phase 3 plans.

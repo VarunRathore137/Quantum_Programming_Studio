@@ -100,3 +100,61 @@ interface StorageAdapter {
 5. **Gate palette organization** — Separate panel vs floating toolbar? Draggable palette?
 
 ### Decisions TBD after discussion
+
+---
+
+## Phase 3 Decisions
+
+**Date:** 2026-03-25
+
+---
+
+### 1. Simulation Engine — Hybrid Pure-TS + Cloud Stub
+
+**Chose:** Option C — Pure-TypeScript statevector engine for ≤20 qubits, cloud stub for >20 qubits.
+
+- **Local engine:** Pure-TS matrix math (~300 lines). Zero cold-start, zero WASM loading, full browser debuggability.
+- **Cloud stub (SIM-03):** Circuits with >20 qubits display a "☁ Running on cloud simulator" badge and return no results. Cloud wired fully in Phase 6.
+- **Hard cap:** Detect qubit count BEFORE simulation starts. Never attempt WASM at >20q.
+- **Reason:** Covers 99% of real usage (Bell, Grover, VQE ansätze), zero cold-start friction, and provides the natural upgrade path to Phase 6 cloud backend.
+
+---
+
+### 2. Simulation Trigger — Debounced Auto-Sim (400ms)
+
+**Chose:** Automatic simulation on every circuit change with a 400ms debounce. No manual "Run" button required.
+
+- **Debounce:** 400ms idle after last circuit mutation fires the simulation.
+- **Cancellation:** In-flight simulation is cancelled on each new change (AbortController pattern).
+- **Reason:** "Instant feedback loop" is the core value prop. A Run button breaks that UX flow. Debounce prevents mid-drag simulation noise.
+
+---
+
+### 3. Entangled Qubit Bloch Sphere — Opacity Fade + Badge
+
+**Chose:** Semi-transparent Bloch sphere + `⟨ψ⟩ entangled` badge for qubits in entangled states.
+
+- **Visual:** Sphere rendered at ~35% opacity to signal "degraded information".
+- **Badge:** Small label overlay — `⟨ψ⟩ entangled` — communicates the state honestly without exposing density matrix math.
+- **Reason:** Greying out feels broken; density matrix display is correct but too advanced for students. Fade + badge communicates "the qubit exists but has no independent state" intuitively.
+
+---
+
+### 4. GAP-01 & GAP-02 — Subsumed into Phase 3 Plans
+
+**Chose:** Fold GAP-01 (React.memo perf) and GAP-02 (circuit linting) into Phase 3 rather than executing as standalone plans.
+
+- **GAP-01 rationale:** Auto-sim fires on every circuit change — React re-render performance is now critical, not optional.
+- **GAP-02 rationale:** Circuit linting pairs naturally with the simulation error state and status bar introduced in Phase 3.
+- **Result:** Phase 3 plans will absorb and close both gaps.
+
+---
+
+### 5. Probability Histogram — Top-32 with Virtual Scrolling
+
+**Chose:** Display the top-32 highest-probability basis states; virtual scroll for the remainder.
+
+- **Cap:** Top-32 covers 5-qubit circuits fully (2^5 = 32 states) and partial results for larger circuits.
+- **Rendering:** For n > 5 qubits, render top-32 bars and expose virtual-scrolling list for all 2^n states.
+- **Reason:** Top-16 is too restrictive (cuts off 5q circuits). Top-32 is the professional balance. Virtual scrolling keeps performance safe at 2^20 states.
+

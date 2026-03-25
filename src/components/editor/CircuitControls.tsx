@@ -3,7 +3,7 @@ import { useCircuitStore } from '@/store/circuitStore'
 import { useHistoryStore, useUndoRedoKeyboard } from '@/store/historyStore'
 
 export function CircuitControls() {
-   const { numQubits, numColumns, setNumQubits, setNumColumns, setGates } = useCircuitStore()
+   const { numQubits, numColumns, setNumQubits, setNumColumns, setGates, gates } = useCircuitStore()
    const { undo, redo, past, future } = useHistoryStore()
 
    const handleUndo = () => {
@@ -88,6 +88,22 @@ export function CircuitControls() {
                className="w-14 bg-zinc-800 border border-zinc-700 rounded px-2 py-0.5 text-zinc-100 font-mono text-xs text-center focus:outline-none focus:border-violet-500 transition-colors"
             />
          </label>
+
+         <div className="flex-1" />
+
+         <div className="flex items-center gap-3">
+            <div className="px-3 py-1 rounded bg-zinc-800 border border-zinc-700 text-xs text-zinc-300 font-mono">
+               Depth: {Math.max(-1, ...gates.map(g => g.column)) + 1}
+            </div>
+            <button className="px-3 py-1.5 text-xs font-semibold bg-cyan-600/20 text-cyan-400 hover:bg-cyan-600/30 border border-cyan-500/30 rounded transition-colors flex items-center gap-1 shadow-[0_0_10px_rgba(6,182,212,0.2)]">
+               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+               Simulate
+            </button>
+            <button className="px-3 py-1.5 text-xs font-semibold bg-violet-600/20 text-violet-400 hover:bg-violet-600/30 border border-violet-500/30 rounded transition-colors flex items-center gap-1 shadow-[0_0_10px_rgba(139,92,246,0.2)]">
+               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M12 5l7 7-7 7" /></svg>
+               Run on Hardware
+            </button>
+         </div>
       </div>
    )
 }

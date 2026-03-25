@@ -13,7 +13,7 @@ export function MultiQubitGateOverlay({ gates, cellSize, labelWidth }: Props) {
    return (
       <svg
          className="absolute inset-0 pointer-events-none"
-         style={{ zIndex: 10 }}
+         style={{ zIndex: 10, filter: 'drop-shadow(0 0 8px rgba(124,58,237,0.6))' }}
          overflow="visible"
       >
          {twoQubitGates.map(gate => {

@@ -19,8 +19,11 @@ export function CircuitGrid({ pendingTwoQubit, setPendingTwoQubit, occupied }: C
    return (
       <div className="relative overflow-auto flex-1 p-4">
          <div className="relative inline-block">
+            {/* SVG overlay BEFORE grid (renders under gates) */}
+            <MultiQubitGateOverlay gates={gates} cellSize={CELL_SIZE} labelWidth={LABEL_WIDTH} />
+
             {/* Qubit rows */}
-            <div className="flex flex-col gap-0">
+            <div className="flex flex-col gap-0 relative z-10">
                {Array.from({ length: numQubits }, (_, qi) => (
                   <div key={qi} className="flex items-center">
                      {/* Qubit label */}
@@ -29,7 +32,8 @@ export function CircuitGrid({ pendingTwoQubit, setPendingTwoQubit, occupied }: C
                      </div>
                      {/* Wire + cells */}
                      <div className="flex items-center relative">
-                        <div className="absolute top-1/2 left-0 right-0 h-px bg-zinc-600 -translate-y-0.5 pointer-events-none" />
+                        {/* Glowing quantum wire */}
+                        <div className="absolute top-1/2 left-0 right-0 h-[2px] bg-cyan-500/40 -translate-y-px pointer-events-none shadow-[0_0_10px_rgba(6,182,212,0.6)]" />
                         {Array.from({ length: numColumns }, (_, ci) => {
                            const key = `q${qi}_c${ci}`
                            const gateId = occupied.get(key)
@@ -45,8 +49,21 @@ export function CircuitGrid({ pendingTwoQubit, setPendingTwoQubit, occupied }: C
                ))}
             </div>
 
-            {/* SVG overlay for multi-qubit gate connectors */}
-            <MultiQubitGateOverlay gates={gates} cellSize={CELL_SIZE} labelWidth={LABEL_WIDTH} />
+            {/* Mock Ghost Diff Gates for AI Copilot */}
+            <div
+               className="absolute w-14 h-14 rounded-lg border-2 border-dashed border-violet-400 bg-violet-900/20 backdrop-blur-[2px] flex flex-col items-center justify-center text-violet-100 shadow-[0_0_15px_rgba(167,139,250,0.5)] z-20 pointer-events-none"
+               style={{ left: LABEL_WIDTH + 2 * CELL_SIZE + CELL_SIZE / 2 - 28, top: 1 * CELL_SIZE + CELL_SIZE / 2 - 28 }}
+            >
+               <span className="text-lg font-mono font-bold leading-none">RY</span>
+               <span className="text-[10px] text-violet-300 mt-0.5">π/2</span>
+            </div>
+            
+            <div
+               className="absolute w-14 h-14 rounded-lg border-2 border-dashed border-violet-400 bg-violet-900/20 backdrop-blur-[2px] flex flex-col items-center justify-center text-violet-100 shadow-[0_0_15px_rgba(167,139,250,0.5)] z-20 pointer-events-none"
+               style={{ left: LABEL_WIDTH + 4 * CELL_SIZE + CELL_SIZE / 2 - 28, top: 2 * CELL_SIZE + CELL_SIZE / 2 - 28 }}
+            >
+               <span className="text-lg font-mono font-bold leading-none">CCX</span>
+            </div>
          </div>
 
          {/* Two-qubit target picker */}
