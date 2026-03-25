@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { useSimStore } from '../../store/simStore';
 import { ProbabilityHistogram } from './ProbabilityHistogram';
 import { StatevectorPanel } from './StatevectorPanel';
+import { BlochSpherePanel } from './BlochSpherePanel';
 
 export function SimResultsPanel() {
-  const [tab, setTab] = useState<'probabilities' | 'statevector'>('probabilities');
+  const [tab, setTab] = useState<'probabilities' | 'statevector' | 'bloch'>('probabilities');
   const simStatus = useSimStore((s) => s.simStatus);
   const simError = useSimStore((s) => s.simError);
 
@@ -31,6 +32,16 @@ export function SimResultsPanel() {
             }`}
           >
             Statevector
+          </button>
+          <button
+            onClick={() => setTab('bloch')}
+            className={`px-3 py-1.5 rounded-md transition-colors ${
+              tab === 'bloch' 
+                ? 'bg-zinc-800 text-white shadow-sm' 
+                : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50'
+            }`}
+          >
+            Bloch
           </button>
         </div>
         
@@ -60,6 +71,7 @@ export function SimResultsPanel() {
 
         {tab === 'probabilities' && <ProbabilityHistogram />}
         {tab === 'statevector' && <StatevectorPanel />}
+        {tab === 'bloch' && <BlochSpherePanel />}
       </div>
     </div>
   );
