@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import { useAutoSim } from '../../hooks/useAutoSim'
 
 interface AppShellProps {
    sidebar: ReactNode
@@ -6,6 +7,8 @@ interface AppShellProps {
 }
 
 export function AppShell({ sidebar, main }: AppShellProps) {
+   useAutoSim()
+
    return (
       <div className="relative flex h-screen w-screen bg-zinc-950 text-zinc-100 overflow-hidden isolate">
          {/* Atmospheric Background Blurs */}
