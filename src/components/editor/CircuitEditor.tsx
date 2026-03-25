@@ -5,6 +5,7 @@ import { CircuitControls } from './CircuitControls'
 import { CircuitGrid } from './CircuitGrid'
 import { CodeEditorPane } from './CodeEditorPane'
 import { SimResultsPanel } from '../simulation/SimResultsPanel'
+import { MetricsPanel } from '../simulation/MetricsPanel'
 import { CopilotSidebar } from '../sidebar/CopilotSidebar'
 import { useCircuitStore } from '@/store/circuitStore'
 import { getGateDefinition } from '@/lib/gates/gateDefinitions'
@@ -65,6 +66,7 @@ export function CircuitEditor() {
       >
          <div className="flex flex-col h-full">
             <CircuitControls />
+            <MetricsPanel />
             <div className="flex flex-1 overflow-hidden">
                <GatePalette />
                <div className="flex flex-col flex-1 overflow-hidden">
