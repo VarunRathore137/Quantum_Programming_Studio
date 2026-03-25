@@ -20,14 +20,17 @@ export function CircuitEditor() {
       controlQubit: number
    } | null>(null)
 
-   const { gates, addGate } = useCircuitStore()
+   const addGate = useCircuitStore(s => s.addGate)
 
-   // Build occupation map: "q0_c1" → gateId
-   const occupied = new Map<string, string>()
-   for (const g of gates) {
-      for (const q of g.qubits) {
-         occupied.set(`q${q}_c${g.column}`, g.id)
+   const getOccupied = () => {
+      const occupied = new Map<string, string>()
+      const gates = useCircuitStore.getState().gates
+      for (const g of gates) {
+         for (const q of g.qubits) {
+            occupied.set(`q${q}_c${g.column}`, g.id)
+         }
       }
+      return occupied
    }
 
    const handleDragEnd = (event: DragEndEvent) => {
@@ -47,6 +50,7 @@ export function CircuitEditor() {
       }
 
       // Single-qubit: validate free cell
+      const occupied = getOccupied()
       const key = `q${qubit}_c${column}`
       if (occupied.has(key)) return
 
@@ -74,7 +78,6 @@ export function CircuitEditor() {
                      <CircuitGrid
                         pendingTwoQubit={pendingTwoQubit}
                         setPendingTwoQubit={setPendingTwoQubit}
-                        occupied={occupied}
                      />
                      <SimResultsPanel />
                   </div>

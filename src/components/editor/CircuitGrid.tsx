@@ -1,8 +1,8 @@
+import React from 'react'
 import { useCircuitStore } from '@/store/circuitStore'
 import { MultiQubitGateOverlay } from './MultiQubitGateOverlay'
 import type { GateType } from '@/types/circuit.types'
 import { GridCell } from './GridCell'
-import { PlacedGate } from './PlacedGate'
 
 const CELL_SIZE = 64
 const LABEL_WIDTH = 48
@@ -10,11 +10,15 @@ const LABEL_WIDTH = 48
 interface CircuitGridProps {
    pendingTwoQubit: { gateType: GateType; column: number; controlQubit: number } | null
    setPendingTwoQubit: (v: { gateType: GateType; column: number; controlQubit: number } | null) => void
-   occupied: Map<string, string>
 }
 
-export function CircuitGrid({ pendingTwoQubit, setPendingTwoQubit, occupied }: CircuitGridProps) {
-   const { numQubits, numColumns, gates, addGate, removeGate } = useCircuitStore()
+export const CircuitGrid = React.memo(function CircuitGrid({ pendingTwoQubit, setPendingTwoQubit }: CircuitGridProps) {
+   const numQubits = useCircuitStore(s => s.numQubits)
+   const numColumns = useCircuitStore(s => s.numColumns)
+   const addGate = useCircuitStore(s => s.addGate)
+   // We only subscribe to the gates list reference and ID changes to trigger a re-render for overlay if gates are added/removed
+   // The cells themselves will handle their own state
+   const gates = useCircuitStore(s => s.gates)
 
    return (
       <div className="relative overflow-auto flex-1 p-4">
@@ -34,16 +38,9 @@ export function CircuitGrid({ pendingTwoQubit, setPendingTwoQubit, occupied }: C
                      <div className="flex items-center relative">
                         {/* Glowing quantum wire */}
                         <div className="absolute top-1/2 left-0 right-0 h-[2px] bg-cyan-500/40 -translate-y-px pointer-events-none shadow-[0_0_10px_rgba(6,182,212,0.6)]" />
-                        {Array.from({ length: numColumns }, (_, ci) => {
-                           const key = `q${qi}_c${ci}`
-                           const gateId = occupied.get(key)
-                           const gate = gateId ? gates.find(g => g.id === gateId && g.qubits[0] === qi) : undefined
-                           return (
-                              <GridCell key={ci} qubit={qi} column={ci} isOccupied={!!gateId}>
-                                 {gate && <PlacedGate gate={gate} onDelete={removeGate} />}
-                              </GridCell>
-                           )
-                        })}
+                        {Array.from({ length: numColumns }, (_, ci) => (
+                           <GridCell key={ci} qubit={qi} column={ci} />
+                        ))}
                      </div>
                   </div>
                ))}
@@ -82,6 +79,13 @@ export function CircuitGrid({ pendingTwoQubit, setPendingTwoQubit, occupied }: C
                            <button
                               key={qi}
                               onClick={() => {
+                                 const gates = useCircuitStore.getState().gates
+                                 const occupied = new Map<string, string>()
+                                 for (const g of gates) {
+                                    for (const q of g.qubits) {
+                                       occupied.set(`q${q}_c${g.column}`, g.id)
+                                    }
+                                 }
                                  const key1 = `q${pendingTwoQubit.controlQubit}_c${pendingTwoQubit.column}`
                                  const key2 = `q${qi}_c${pendingTwoQubit.column}`
                                  if (occupied.has(key1) || occupied.has(key2)) return
@@ -109,4 +113,4 @@ export function CircuitGrid({ pendingTwoQubit, setPendingTwoQubit, occupied }: C
          )}
       </div>
    )
-}
+})

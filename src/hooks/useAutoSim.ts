@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useCircuitStore } from '../store/circuitStore';
 import { useSimStore } from '../store/simStore';
 import { simulate } from '../lib/sim';
+import { validateCircuit } from '../lib/circuit/validator';
 
 export function useAutoSim() {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -31,7 +32,11 @@ export function useAutoSim() {
 
         if (!circuit.id) return;
 
-        // AbortController for pattern matching (though simulate is synchronous TS right now)
+        // Synchronous linting
+        const lintErrors = validateCircuit(circuit);
+        useSimStore.getState().setLintErrors(lintErrors);
+
+        // AbortController for pattern matching
         const abortController = new AbortController();
         abortRef.current = abortController;
 

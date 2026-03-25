@@ -1,13 +1,17 @@
+import React from 'react'
 import { useDroppable } from '@dnd-kit/core'
+import { useCircuitStore } from '@/store/circuitStore'
+import { PlacedGate } from './PlacedGate'
 
 interface GridCellProps {
    qubit: number
    column: number
-   isOccupied: boolean
-   children?: React.ReactNode
 }
 
-export function GridCell({ qubit, column, isOccupied, children }: GridCellProps) {
+export const GridCell = React.memo(function GridCell({ qubit, column }: GridCellProps) {
+   const gate = useCircuitStore(s => s.gates.find(g => g.column === column && g.qubits.includes(qubit)))
+   const isOccupied = !!gate
+
    const dropId = `cell-q${qubit}-c${column}`
    const { setNodeRef, isOver } = useDroppable({
       id: dropId,
@@ -25,7 +29,7 @@ export function GridCell({ qubit, column, isOccupied, children }: GridCellProps)
         ${isOccupied ? 'cursor-default' : 'cursor-crosshair hover:bg-zinc-800/40'}
       `}
       >
-         {children}
+         {gate && gate.qubits[0] === qubit && <PlacedGate gateId={gate.id} />}
       </div>
    )
-}
+})
