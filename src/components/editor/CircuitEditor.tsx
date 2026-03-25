@@ -4,6 +4,7 @@ import { GatePalette } from '../palette/GatePalette'
 import { CircuitControls } from './CircuitControls'
 import { CircuitGrid } from './CircuitGrid'
 import { CodeEditorPane } from './CodeEditorPane'
+import { SimResultsPanel } from '../simulation/SimResultsPanel'
 import { CopilotSidebar } from '../sidebar/CopilotSidebar'
 import { useCircuitStore } from '@/store/circuitStore'
 import { getGateDefinition } from '@/lib/gates/gateDefinitions'
@@ -67,11 +68,14 @@ export function CircuitEditor() {
             <div className="flex flex-1 overflow-hidden">
                <GatePalette />
                <div className="flex flex-col flex-1 overflow-hidden">
-                  <CircuitGrid
-                     pendingTwoQubit={pendingTwoQubit}
-                     setPendingTwoQubit={setPendingTwoQubit}
-                     occupied={occupied}
-                  />
+                  <div className="flex flex-1 overflow-hidden">
+                     <CircuitGrid
+                        pendingTwoQubit={pendingTwoQubit}
+                        setPendingTwoQubit={setPendingTwoQubit}
+                        occupied={occupied}
+                     />
+                     <SimResultsPanel />
+                  </div>
                   <CodeEditorPane />
                </div>
                <CopilotSidebar />
