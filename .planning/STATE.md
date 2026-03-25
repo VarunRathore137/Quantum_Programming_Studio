@@ -5,14 +5,14 @@
 See: `.planning/PROJECT.md` (updated 2026-03-01)
 
 **Core value:** Instant visual-to-simulation feedback loop for solo quantum researchers and students
-**Current focus:** Phase 3 — Simulation & Visualization (6 plans created, ready to execute)
+**Current focus:** Phase 4 — Code Editor & Bi-Directional Sync
 
 ---
 
 ## Current Phase
 
-**Phase:** 3 — Simulation & Visualization
-**Status:** 🟡 Planned — 6 plans created, ready to execute
+**Phase:** 4 — Code Editor & Bi-Directional Sync
+**Status:** ⬜ Not started
 
 ---
 
@@ -22,7 +22,7 @@ See: `.planning/PROJECT.md` (updated 2026-03-01)
 |---|-------|--------|
 | 1 | Foundation & Circuit Core | ✅ Complete |
 | 2 | Visual Circuit Editor | ✅ Complete |
-| 3 | Simulation & Visualization | 🟡 Planned |
+| 3 | Simulation & Visualization | ✅ Complete |
 | 4 | Code Editor & Bi-Directional Sync | ⬜ Not started |
 | 5 | Templates & AI Copilot | ⬜ Not started |
 | 6 | Noise Models & Cloud Backend | ⬜ Not started |
@@ -104,12 +104,12 @@ Gap sources:
 
 | Plan | Name | Wave | Status |
 |------|------|------|--------|
-| 3.1 | Pure-TS Statevector Engine (TDD) | 1 | ⬜ Pending |
-| 3.2 | Simulation Store + Auto-Sim Trigger | 2 | ⬜ Pending |
-| 3.3 | Probability Histogram + Statevector Display | 2 | ⬜ Pending |
-| 3.4 | Bloch Sphere Visualization | 3 | ⬜ Pending |
-| 3.5 | Status Bar + Circuit Metrics | 3 | ⬜ Pending |
-| 3.6 | React Performance + Circuit Linting (GAP-01+02) | 4 | ⬜ Pending |
+| 3.1 | Pure-TS Statevector Engine (TDD) | 1 | ✅ Complete |
+| 3.2 | Simulation Store + Auto-Sim Trigger | 2 | ✅ Complete |
+| 3.3 | Probability Histogram + Statevector Display | 2 | ✅ Complete |
+| 3.4 | Bloch Sphere Visualization | 3 | ✅ Complete |
+| 3.5 | Status Bar + Circuit Metrics | 3 | ✅ Complete |
+| 3.6 | React Performance + Circuit Linting (GAP-01+02) | 4 | ✅ Complete |
 
 Wave structure:
 - **Wave 1** (independent): Plan 3.1 — Pure-TS engine (TDD)
@@ -121,4 +121,4 @@ Wave structure:
 
 ## Next Step
 
-Run `/execute 3` to execute Phase 3 plans.
+Run `/plan 4` to plan Phase 4.
